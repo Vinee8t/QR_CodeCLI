@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        
+        #image {
+          
+            margin: 5%;
+            margin-left: 25%;
+            height: 250px;
+            width: 250px;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 350px;
+            margin: 130px;
+            border-radius: 5px;
+        }
+        input{
+            margin-top: 20%;
+            margin-left: 20px;
+            border-radius: 3px;
+            width: 90%;
+            height: 60px;
+            background-color: rgb(225, 231, 236);
+            color: rgb(7, 42, 42);
+            font-size: 28px;
+            
+        }
+        button{
+            margin-left: 40%;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            border: none;
+            background-color: rgb(58, 126, 227);
+            border-radius: 4px;
+            color: rgb(255, 254, 254);
+            height: 80px;
+            width: 120px;
+            font-size: 30px;
+        }
+        #downloadImage{
+            background-color: rgb(58, 126, 227);
+            border-radius: 4px;
+            color: rgb(255, 254, 254);
+            height: 80px;
+            width: 180px;
+            font-size: 30px;
+        }
+        
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qrcode</title>
+</head>
+<body>
+    <h1 align="center">Generate Your QR CODE</h1>
+    <div class="container">
+        <div style="border: 1px solid;border-radius: 5px;">
+        <form action="/" method="post">
+            <input align="center" name="URL"  placeholder="Enter url">
+            <input align="center" name="urlname"  placeholder="Enter short url name url">
+           <br>
+            <button type="submit" onclick="show()" id="btnID">Submit</button>
+        </form>
+    </div>
+    <div style="border: 1px solid;border-radius: 5px;">
+        <img  id="image" src="images/<%=imageName %>.png" alt="QR" />
+        <button id="downloadImage">Download </button>
+    </div>
+    
+   
+</body>
+<script>
+    const btn = document.getElementById('downloadImage');
+const url = "images/<%=imageName %>.png"
+
+btn.addEventListener('click', (event) => {
+  event.preventDefault();
+  console.log('ABC')
+  downloadImage(url);
+})
+
+
+function downloadImage(url) {
+  fetch(url, {
+    mode : 'no-cors',
+  })
+    .then(response => response.blob())
+    .then(blob => {
+    let blobUrl = window.URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.download = url.replace(/^.*[\\\/]/, '');
+    a.href = blobUrl;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  })
+}
+
+</script>
+</html>
